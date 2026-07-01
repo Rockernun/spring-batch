@@ -20,6 +20,11 @@ public class HelloJobConfig {
         return new JobBuilder("helloJob", jobRepository).start(helloStep).build();
     }
 
+    @Bean
+    public HelloTasklet helloTasklet() {
+        return new HelloTasklet();
+    }
+
 //    @Bean
 //    public Step helloStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
 //        return new StepBuilder("helloStep", jobRepository).tasklet((contribution, chunkContext) -> {
@@ -28,18 +33,23 @@ public class HelloJobConfig {
 //        }, transactionManager).build();
 //    }
 
+//    @Bean
+//    public Step helloStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+//        return new StepBuilder("helloStep", jobRepository).tasklet((contribution, chunkContext) -> {
+//
+//            // 현재 Step의 Execution Context를 가져옴 -> 저장
+//            ExecutionContext stepContext = chunkContext.getStepContext()
+//                            .getStepExecution().getExecutionContext();
+//            stepContext.put("processedAt", "2026-07-01");
+//            stepContext.put("count", 100);
+//
+//            System.out.println("Hello Spring Batch Execution!");
+//            return RepeatStatus.FINISHED;
+//        }, transactionManager).build();
+//    }
+
     @Bean
-    public Step helloStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
-        return new StepBuilder("helloStep", jobRepository).tasklet((contribution, chunkContext) -> {
-
-            // 현재 Step의 Execution Context를 가져옴 -> 저장
-            ExecutionContext stepContext = chunkContext.getStepContext()
-                            .getStepExecution().getExecutionContext();
-            stepContext.put("processedAt", "2026-07-01");
-            stepContext.put("count", 100);
-
-            System.out.println("Hello Spring Batch Execution!");
-            return RepeatStatus.FINISHED;
-        }, transactionManager).build();
+    public Step helloStep(JobRepository jobRepository, PlatformTransactionManager transactionManager, HelloTasklet helloTasklet) {
+        return new StepBuilder("helloStep", jobRepository).tasklet(helloTasklet, transactionManager).build();
     }
 }
