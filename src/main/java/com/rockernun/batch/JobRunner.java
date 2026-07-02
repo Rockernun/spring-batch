@@ -13,9 +13,9 @@ public class JobRunner implements CommandLineRunner {
     private final JobLauncher jobLauncher;
     private final Job job;
 
-    public JobRunner(JobLauncher jobLauncher, Job jdbcCursorJob) {
+    public JobRunner(JobLauncher jobLauncher, Job jdbcPagingJob) {
         this.jobLauncher = jobLauncher;
-        this.job = jdbcCursorJob;
+        this.job = jdbcPagingJob;
     }
 
     @Override
