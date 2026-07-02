@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 public class JobRunner implements CommandLineRunner {
 
     private final JobLauncher jobLauncher;
-    private final Job helloJob;
+    private final Job job;
 
-    public JobRunner(JobLauncher jobLauncher, Job helloJob) {
+    public JobRunner(JobLauncher jobLauncher, Job chunkJob) {
         this.jobLauncher = jobLauncher;
-        this.helloJob = helloJob;
+        this.job = chunkJob;
     }
 
     @Override
@@ -23,6 +23,6 @@ public class JobRunner implements CommandLineRunner {
         JobParameters jobParameter = new JobParametersBuilder()
                 .addLong("time", System.currentTimeMillis())
                 .toJobParameters();
-        jobLauncher.run(helloJob, jobParameter);
+        jobLauncher.run(job, jobParameter);
     }
 }
